@@ -17,18 +17,18 @@ function asyncHandler(cb) {
   }
 }
 
-/* GET books listing. */
+/* GET, all books listing. */
 router.get('/', asyncHandler(async (req, res) => {
   const books = await Book.findAll();
   res.render("all_books", { books });
 }));
 
-
+/* GET new books page. */
 router.get('/new', function (req, res, next) {
   res.render("new_book", { book: {}, title: "New Book" });
 });
 
-/* POST create book */
+/* POST, create a book */
 router.post('/', asyncHandler(async (req, res, next) => {
   let book;
   try {
@@ -36,7 +36,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
     if (book) {
       res.redirect("/books");
     } else {
-      const err = createErr(404, "The book could not be added.");
+      const err = createError(404, "The book could not be added.");
       next(err);
     }
   } catch (error) {
@@ -44,22 +44,23 @@ router.post('/', asyncHandler(async (req, res, next) => {
       book = await Book.build(req.body);
       res.render("new_book", { book, errors: error.errors, title: "New Book" })
     } else {
-      throw error;b
+      throw error;
     }
   }
 }));
 
+/* GET, book by id */
 router.get('/:id', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   if (book) {
     res.render("book_detail", { book, title: "Edit Book" });
   } else {
-    const err = createErr(404, errorMissingBook);
+    const err = createError(404, errorMissingBook);
     next(err);
   }
 }));
 
-/* Update a book */
+/* POST, update a book by id*/
 router.post('/:id', asyncHandler(async (req, res, next) => {
   let book;
   try {
@@ -68,7 +69,7 @@ router.post('/:id', asyncHandler(async (req, res, next) => {
       await book.update(req.body);
       res.redirect("/books");
     } else {
-      const err = createErr(404, errorMissingBook);
+      const err = createError(404, errorMissingBook);
       next(err);
     }
   } catch (error) {
@@ -82,22 +83,17 @@ router.post('/:id', asyncHandler(async (req, res, next) => {
   }
 }));
 
-/* Delete individual book */
+/* POST, delete individual book */
 router.post('/:id/delete', asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
   if (book) {
     await book.destroy();
     res.redirect("/books");
   } else {
-    const err = createErr(404, errorMissingBook);
+    const err = createError(404, errorMissingBook);
     next(err);
   }
 }));
 
-function createErr(code, message){
-  const err = createError(code);
-  err.message = message;
- return err;
-}
 
 module.exports = router;

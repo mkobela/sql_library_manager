@@ -1,6 +1,7 @@
 body {
   padding: 10px 50px 50px;
   font: 18px "Garamond", serif;
+  /* credit to https://unsplash.com/@sharonmccutcheon */
   background-image: url("../images/books.jpg");
   background-repeat: no-repeat;
   background-size: cover;
