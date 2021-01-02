@@ -20,15 +20,15 @@ function asyncHandler(cb) {
 /* GET, all books listing. */
 router.get('/', asyncHandler(async (req, res) => {
   const books = await Book.findAll();
-  res.render("all_books", { books });
+  res.render("all-books", { books });
 }));
 
 /* GET new books page. */
 router.get('/new', function (req, res, next) {
-  res.render("new_book", { book: {}, title: "New Book" });
+  res.render("new-book", { book: {}, title: "New Book" });
 });
 
-/* POST, create a book */
+/* POST, create a new book */
 router.post('/', asyncHandler(async (req, res, next) => {
   let book;
   try {
@@ -53,7 +53,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
 router.get('/:id', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   if (book) {
-    res.render("book_detail", { book, title: "Edit Book" });
+    res.render("update-book", { book, title: "Edit Book" });
   } else {
     const err = createError(404, errorMissingBook);
     next(err);

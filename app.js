@@ -49,7 +49,7 @@ app.use(function (err, req, res, next) {
     // 404 not found handler
     err.message = err.message;
     res.status = err.status;
-    res.render('page_not_found', { err });
+    res.render('page-not-found', { err });
   } else {
     // global error handler
     err.status = err.status || 500;

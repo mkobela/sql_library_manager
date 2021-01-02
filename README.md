@@ -16,6 +16,10 @@ Once the zip file is downloaded, extract to your desired location.
 
 ## Available Scripts
 
+In the project directory, you can install modules:
+
+### `npm install`
+
 In the project directory, you can run the app with:
 
 ### `npm start`
